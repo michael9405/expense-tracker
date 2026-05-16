@@ -1,0 +1,59 @@
+# ==========================================
+# Java & Maven
+# ==========================================
+**/target/
+**/build/
+*.class
+*.log
+HELP.md
+.kotlin
+
+# Maven Wrapper global
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ==========================================
+# IntelliJ IDEA
+# ==========================================
+.idea/
+**/ .idea/
+*.iws
+*.iml
+*.ipr
+**/shelf/
+**/workspace.xml
+**/httpRequests/
+**/queries/
+**/dataSources/
+**/dataSources.local.xml
+
+# ==========================================
+# Other IDEs & Editors (Eclipse, NetBeans, VS Code)
+# ==========================================
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.vscode/
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbdist/
+**/.nb-gradle/
+
+# ==========================================
+# OS
+# ==========================================
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# SENSITIVE
+# ==========================================
+**/src/main/resources/application.properties
