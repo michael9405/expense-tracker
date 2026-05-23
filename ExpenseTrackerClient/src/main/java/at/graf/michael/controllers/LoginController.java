@@ -3,6 +3,7 @@ package at.graf.michael.controllers;
 import at.graf.michael.utils.ApiUtil;
 import at.graf.michael.utils.Utilitie;
 import at.graf.michael.views.LoginView;
+import at.graf.michael.views.SignUpView;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
@@ -37,7 +38,7 @@ public class LoginController {
                     if (conn.getResponseCode() != 200) {
                         Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to authenticate!");
                     } else {
-                        Utilitie.showAlertDialog(Alert.AlertType.INFORMATION, "Login Sucessful!");
+                        Utilitie.showAlertDialog(Alert.AlertType.INFORMATION, "Login Sucessful! ");
                     }
 
                 } catch (IOException e) {
@@ -45,6 +46,15 @@ public class LoginController {
                 }
             }
         });
+
+        loginView.getSignupLabel().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                new SignUpView().show();
+            }
+        });
+
+
     }
 
     private boolean validateUser() {
