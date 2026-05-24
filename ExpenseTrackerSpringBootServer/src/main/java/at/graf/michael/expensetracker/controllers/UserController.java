@@ -59,4 +59,14 @@ public class UserController {
 
     }
 
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        logger.info("Creating New User");
+        User newUser = userService.createUser(
+                user.getName(),
+                user.getEmail(),
+                user.getPassword()
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(newUser);
+    }
 }
