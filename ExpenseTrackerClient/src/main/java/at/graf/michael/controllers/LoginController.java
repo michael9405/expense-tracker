@@ -1,6 +1,7 @@
 package at.graf.michael.controllers;
 
 import at.graf.michael.utils.ApiUtil;
+import at.graf.michael.utils.SqlUtil;
 import at.graf.michael.utils.Utilitie;
 import at.graf.michael.views.LoginView;
 import at.graf.michael.views.SignUpView;
@@ -24,26 +25,11 @@ public class LoginController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (!validateUser()) return;
+
                 String email = loginView.getUsernameField().getText();
                 String password = loginView.getPasswordField().getText();
 
-                // authenticate email and password
-                HttpURLConnection conn = null;
-                try {
-                    conn = ApiUtil.fetchApi(
-                            "/api/v1/user/login?email=" + email + "&password" + password,
-                            ApiUtil.RequestMethod.POST, null
-                    );
-
-                    if (conn.getResponseCode() != 200) {
-                        Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to authenticate!");
-                    } else {
-                        Utilitie.showAlertDialog(Alert.AlertType.INFORMATION, "Login Sucessful! ");
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                SqlUtil.postLoginUser(email, password);
             }
         });
 
