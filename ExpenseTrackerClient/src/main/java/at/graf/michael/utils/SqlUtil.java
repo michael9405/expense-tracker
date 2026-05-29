@@ -46,9 +46,7 @@ public class SqlUtil {
             );
 
             if (conn.getResponseCode() != 200) {
-                Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to authenticate!");
-            } else {
-                Utilitie.showAlertDialog(Alert.AlertType.INFORMATION, "Login Sucessful! ");
+                return false;
             }
 
         } catch (IOException e) {

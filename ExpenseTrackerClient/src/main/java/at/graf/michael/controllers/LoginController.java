@@ -3,6 +3,7 @@ package at.graf.michael.controllers;
 import at.graf.michael.utils.ApiUtil;
 import at.graf.michael.utils.SqlUtil;
 import at.graf.michael.utils.Utilitie;
+import at.graf.michael.views.DashboardView;
 import at.graf.michael.views.LoginView;
 import at.graf.michael.views.SignUpView;
 import javafx.event.EventHandler;
@@ -29,7 +30,12 @@ public class LoginController {
                 String email = loginView.getUsernameField().getText();
                 String password = loginView.getPasswordField().getText();
 
-                SqlUtil.postLoginUser(email, password);
+                if(SqlUtil.postLoginUser(email, password)) {
+                    Utilitie.showAlertDialog(Alert.AlertType.INFORMATION, "Login Sucessful! ");
+                    new DashboardView(email).show();
+                } else {
+                    Utilitie.showAlertDialog(Alert.AlertType.ERROR, "Failed to authenticate!");
+                }
             }
         });
 
