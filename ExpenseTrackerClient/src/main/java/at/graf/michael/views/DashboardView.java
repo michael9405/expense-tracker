@@ -108,5 +108,9 @@ public class DashboardView {
         this.createCategoryMenuItem = createCategoryMenuItem;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     //endrgion
 }

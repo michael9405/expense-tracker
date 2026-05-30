@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 public class ApiUtil {
     private static final String SPRINGBOOT_URL = "http://localhost:8080";
@@ -46,4 +47,30 @@ public class ApiUtil {
 
         return null;
     }
+
+
+    public static String readApiResponse(HttpURLConnection conn) {
+        try {
+            StringBuilder resultJson = new StringBuilder();
+
+            Scanner scanner = new Scanner(conn.getInputStream());
+
+            // loop though each line in the response and append it to the stringbuilder
+            while(scanner.hasNext()) {
+                resultJson.append(scanner.nextLine());
+            }
+
+            scanner.close();
+
+            return resultJson.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+
+
 }

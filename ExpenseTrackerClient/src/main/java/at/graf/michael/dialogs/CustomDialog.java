@@ -1,11 +1,17 @@
 package at.graf.michael.dialogs;
 
+import at.graf.michael.models.User;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
 public class CustomDialog extends Dialog {
-    public CustomDialog(){
+
+    private User user;
+
+    public CustomDialog(User user){
+        this.user = user;
+
         // add the stylesheet
         getDialogPane().getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         getDialogPane().getStyleClass().addAll("main-background");

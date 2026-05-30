@@ -68,7 +68,7 @@ public class SignUpController {
         if (!signUpView.getPasswordField().getText().equals(signUpView.getRePasswordField().getText())) return false;
 
         // entered email doesn't already exist in the db
-        if(SqlUtil.getUserByEmail(signUpView.getUsernameField().getText())) return false;
+        if(SqlUtil.getUserByEmail(signUpView.getUsernameField().getText()) != null) return false;
 
         return true;
     }

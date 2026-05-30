@@ -16,6 +16,7 @@ public class Main extends Application {
         stage.setTitle("Expense Tracker");
         ViewNavigator.setMainStage(stage);
 
+        //new SignUpView().show();
         new DashboardView("email@email.com").show();
     }
 }
