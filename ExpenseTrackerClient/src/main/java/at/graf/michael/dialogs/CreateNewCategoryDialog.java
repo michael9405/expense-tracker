@@ -1,8 +1,13 @@
 package at.graf.michael.dialogs;
 
 import at.graf.michael.models.User;
+import at.graf.michael.utils.SqlUtil;
+import at.graf.michael.utils.Utilitie;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.sun.net.httpserver.Authenticator;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
@@ -37,7 +42,27 @@ public class CreateNewCategoryDialog extends CustomDialog {
         createCategoryBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                // extract the data
+                String categoryName = newCategoryTextField.getText();
+                String color = Utilitie.getHexColorValue(colorPicker);
+                System.out.println(color);
 
+                JsonObject userData = new JsonObject();
+                userData.addProperty("id", user.getId());
+
+                JsonObject transactionCategoryData = new JsonObject();
+                transactionCategoryData.add("user", userData);
+                transactionCategoryData.addProperty("categoryName", categoryName);
+                transactionCategoryData.addProperty("categoryColor", color);
+
+                boolean postTransactionCategoryStatus = SqlUtil.postTransactionCategory(transactionCategoryData);
+                if(postTransactionCategoryStatus) {
+                    Utilitie.showAlertDialog(Alert.AlertType.INFORMATION,
+                            "Success: Create a Transaction Category");
+                } else {
+                    Utilitie.showAlertDialog(Alert.AlertType.ERROR,
+                            "Error: Failed to create Transaction Category");
+                }
             }
         });
 

@@ -102,6 +102,31 @@ public class SqlUtil {
         return true; // account successfully created and stored into our database
     }
 
+    public static boolean postTransactionCategory(JsonObject transactionCategoryData) {
+        HttpURLConnection conn = null;
+        try {
+            conn = ApiUtil.fetchApi(
+                    "api/v1/transaction-category",
+                    ApiUtil.RequestMethod.POST,
+                    transactionCategoryData
+            );
+
+            if(conn.getResponseCode() != 200) {
+                return false;
+            }
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        return false;
+    }
+
     //endregion
 
 }

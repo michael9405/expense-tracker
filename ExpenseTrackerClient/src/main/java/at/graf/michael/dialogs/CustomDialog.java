@@ -7,7 +7,7 @@ import javafx.scene.control.Dialog;
 
 public class CustomDialog extends Dialog {
 
-    private User user;
+    protected User user;
 
     public CustomDialog(User user){
         this.user = user;
