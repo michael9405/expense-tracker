@@ -106,7 +106,7 @@ public class SqlUtil {
         HttpURLConnection conn = null;
         try {
             conn = ApiUtil.fetchApi(
-                    "api/v1/transaction-category",
+                    "/api/v1/transaction-category",
                     ApiUtil.RequestMethod.POST,
                     transactionCategoryData
             );
