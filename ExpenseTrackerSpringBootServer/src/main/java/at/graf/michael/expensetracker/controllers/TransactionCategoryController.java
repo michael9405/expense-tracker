@@ -5,11 +5,9 @@ import at.graf.michael.expensetracker.services.TransactionCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -20,6 +18,16 @@ public class TransactionCategoryController {
     @Autowired
     private TransactionCategoryService transactionCategoryService;
 
+    //region Get
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<TransactionCategory>> getAllTransactionCategoriesByUserId(@PathVariable int userId) {
+        logger.info("Getting all transaction categories from user: " + userId);
+        List<TransactionCategory> transactionCategories =  transactionCategoryService.getAllTransactionCategoriesByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(transactionCategories);
+    }
+    //endregion
+
+    //region Post
     @PostMapping
     public ResponseEntity<TransactionCategory> createTransactionCategory(@RequestBody TransactionCategory transactionCategory) {
         logger.info("Create Transaction Category for: " + transactionCategory.getCategoryName());
@@ -33,4 +41,5 @@ public class TransactionCategoryController {
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
+    //endregion
 }

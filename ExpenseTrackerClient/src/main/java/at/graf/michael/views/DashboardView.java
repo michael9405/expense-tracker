@@ -22,7 +22,7 @@ public class DashboardView {
     private Label totalIncomeLabel, totalIncome;
     private Label totalExpenseLabel, totalExpense;
 
-    private MenuItem createCategoryMenuItem;
+    private MenuItem createCategoryMenuItem, viewCategoriesMenuItem;
 
     public DashboardView(String email) {
         this.email = email;
@@ -64,8 +64,9 @@ public class DashboardView {
         Menu fileMenu = new Menu("File");
 
         createCategoryMenuItem = new MenuItem("Create Category");
+        viewCategoriesMenuItem = new MenuItem("View Categories");
 
-        fileMenu.getItems().addAll(createCategoryMenuItem);
+        fileMenu.getItems().addAll(createCategoryMenuItem, viewCategoriesMenuItem);
         menuBar.getMenus().addAll(fileMenu);
         return menuBar;
     }
@@ -108,9 +109,13 @@ public class DashboardView {
         this.createCategoryMenuItem = createCategoryMenuItem;
     }
 
+    public MenuItem getViewCategoriesMenuItem() {
+        return viewCategoriesMenuItem;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    //endrgion
+    //endregion
 }

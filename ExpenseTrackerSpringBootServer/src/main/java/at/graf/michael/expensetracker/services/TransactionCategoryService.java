@@ -7,6 +7,7 @@ import at.graf.michael.expensetracker.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -19,6 +20,16 @@ public class TransactionCategoryService {
 
     @Autowired
     private TransactionCategoryRepository transactionCategoryRepository;
+
+    //region Get
+
+    public List<TransactionCategory> getAllTransactionCategoriesByUserId(int userId) {
+        logger.info("Getting all transaction categories from user: " + userId);
+        return transactionCategoryRepository.findAllByUserId(userId);
+    }
+
+    //endregion
+
 
     //region Post
     public TransactionCategory createTransactionCategory(int userId, String categoryName, String categoryColor) {

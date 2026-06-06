@@ -1,14 +1,15 @@
 package at.graf.michael.utils;
 
+import at.graf.michael.models.TransactionCategory;
 import at.graf.michael.models.User;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqlUtil {
     //region GET
@@ -38,6 +39,43 @@ public class SqlUtil {
             LocalDateTime createdAt = new Gson().fromJson(jsonObject.get("created_at"), LocalDateTime.class);
 
             return new User(id, name, email, password, createdAt);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        return null;
+    }
+
+    public static List<TransactionCategory> getAllTransactionCategoriesByUser(User user) {
+        List<TransactionCategory> categories = new ArrayList<>();
+        HttpURLConnection conn = null;
+        try {
+            conn = ApiUtil.fetchApi(
+                    "/api/v1/transaction-category/user/" + user.getId(),
+                    ApiUtil.RequestMethod.GET, null
+            );
+
+            if (conn.getResponseCode() != 200) {
+                System.out.println("Error(getAllTransactionCategoriesByUser): " + conn.getResponseCode());
+            }
+
+            String result = ApiUtil.readApiResponse(conn);
+            JsonArray resultJsonArray = new JsonParser().parse(result).getAsJsonArray();
+
+            for (JsonElement jsonElement : resultJsonArray) {
+                int categoryId = jsonElement.getAsJsonObject().get("id").getAsInt();
+                String categoryName = jsonElement.getAsJsonObject().get("categoryName").getAsString();
+                String categoryColor = jsonElement.getAsJsonObject().get("categoryColor").getAsString();
+
+                categories.add(new TransactionCategory(categoryId, categoryName, categoryColor));
+            }
+
+            return categories;
 
         } catch (IOException e) {
             e.printStackTrace();

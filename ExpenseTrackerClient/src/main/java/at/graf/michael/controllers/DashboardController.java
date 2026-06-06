@@ -1,6 +1,7 @@
 package at.graf.michael.controllers;
 
 import at.graf.michael.dialogs.CreateNewCategoryDialog;
+import at.graf.michael.dialogs.ViewOrEditTransactionCategoryDialog;
 import at.graf.michael.models.User;
 import at.graf.michael.utils.SqlUtil;
 import at.graf.michael.views.DashboardView;
@@ -31,6 +32,13 @@ public class DashboardController {
             @Override
             public void handle(ActionEvent event) {
                 new CreateNewCategoryDialog(user).showAndWait();
+            }
+        });
+
+        dashboardView.getViewCategoriesMenuItem().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                new ViewOrEditTransactionCategoryDialog(user, DashboardController.this).showAndWait();
             }
         });
     }
