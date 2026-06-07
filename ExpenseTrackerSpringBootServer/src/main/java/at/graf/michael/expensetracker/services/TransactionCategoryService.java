@@ -22,6 +22,10 @@ public class TransactionCategoryService {
     private TransactionCategoryRepository transactionCategoryRepository;
 
     //region Get
+    public Optional<TransactionCategory> getTransactionCategoryById(int id) {
+        logger.info("Getting transaction category by id: " + id);
+        return transactionCategoryRepository.findById(id);
+    }
 
     public List<TransactionCategory> getAllTransactionCategoriesByUserId(int userId) {
         logger.info("Getting all transaction categories from user: " + userId);
@@ -33,7 +37,7 @@ public class TransactionCategoryService {
 
     //region Post
     public TransactionCategory createTransactionCategory(int userId, String categoryName, String categoryColor) {
-        logger.info("Create Transaction Category with user: " + userId);
+        logger.info("Create transaction category with user: " + userId);
 
         // find user with the userId
         Optional<User> user = userRepository.findById(userId);
@@ -46,6 +50,25 @@ public class TransactionCategoryService {
         transactionCategory.setCategoryColor(categoryColor);
 
         return transactionCategoryRepository.save(transactionCategory);
+    }
+
+    //endregion
+
+    //region Put (Update)
+
+    public TransactionCategory updateTransactionCategoryById(int transactionCategoryId, String newCategoryName, String newCategoryColor) {
+        logger.info("Updating TransactionCategory with Id: " + transactionCategoryId);
+
+        Optional<TransactionCategory> transactionCategoryOptional = transactionCategoryRepository.findById(transactionCategoryId);
+        if(transactionCategoryOptional.isEmpty()) {
+            return null;
+        }
+
+        TransactionCategory updatedTransactionCategory = transactionCategoryOptional.get();
+        updatedTransactionCategory.setCategoryName(newCategoryName);
+        updatedTransactionCategory.setCategoryColor(newCategoryColor);
+
+        return transactionCategoryRepository.save(updatedTransactionCategory);
     }
 
     //endregion

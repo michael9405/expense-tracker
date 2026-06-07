@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -25,6 +26,18 @@ public class TransactionCategoryController {
         List<TransactionCategory> transactionCategories =  transactionCategoryService.getAllTransactionCategoriesByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(transactionCategories);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TransactionCategory> getTransactionCategoryById(@PathVariable int id) {
+        logger.info("Getting transaction category with id: " + id);
+
+        Optional<TransactionCategory> transactionCategoryOptional = transactionCategoryService.getTransactionCategoryById(id);
+        if(transactionCategoryOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(transactionCategoryOptional.get());
+    }
     //endregion
 
     //region Post
@@ -41,5 +54,21 @@ public class TransactionCategoryController {
         return ResponseEntity.status(HttpStatus.OK).build();
 
     }
+    //endregion
+
+    //region Put (Update)
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TransactionCategory> updateTransactionCategoryById(@PathVariable int id, @RequestParam String newCategoryName, @RequestParam String newCategoryColor) {
+        logger.info("Updating transaction category with id: " + id);
+
+        TransactionCategory updatedTransactionCategory = transactionCategoryService.updateTransactionCategoryById(id, newCategoryName, newCategoryColor);
+        if(updatedTransactionCategory == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedTransactionCategory);
+    }
+
     //endregion
 }

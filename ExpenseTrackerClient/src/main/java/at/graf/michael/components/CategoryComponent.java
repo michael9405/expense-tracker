@@ -2,10 +2,14 @@ package at.graf.michael.components;
 
 import at.graf.michael.controllers.DashboardController;
 import at.graf.michael.models.TransactionCategory;
+import at.graf.michael.utils.SqlUtil;
+import at.graf.michael.utils.Utilitie;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
@@ -17,6 +21,8 @@ public class CategoryComponent extends HBox {
     private TextField categoryTextField;
     private ColorPicker colorPicker;
     private Button editButton, saveButton, deleteButton;
+
+    private boolean isEditing;
 
     public CategoryComponent(DashboardController dashboardController, TransactionCategory transactionCategory) {
         this.dashboardController = dashboardController;
@@ -42,18 +48,74 @@ public class CategoryComponent extends HBox {
         editButton = new Button("Edit");
         editButton.setMinWidth(50);
         editButton.getStyleClass().addAll("text-size-sm");
-
+        editButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleToggle();
+            }
+        });
 
         saveButton = new Button("Save");
         saveButton.setMinWidth(50);
         saveButton.getStyleClass().addAll("text-size-sm");
         saveButton.setVisible(false);
         saveButton.setManaged(false);
+        saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleToggle();
+
+                // extract data
+                String newCategoryName = categoryTextField.getText();
+                String newCategoryColor = Utilitie.getHexColorValue(colorPicker);
+
+                // update database
+                SqlUtil.putTransactionCategory(transactionCategory.getId(), newCategoryName, newCategoryColor);
+            }
+        });
 
         deleteButton = new Button("Delete");
         deleteButton.setMinWidth(50);
         deleteButton.getStyleClass().addAll("text-size-sm", "bg-light-red", "text-white");
 
         getChildren().addAll(categoryTextField, colorPicker, editButton, saveButton, deleteButton);
+    }
+
+    private void handleToggle() {
+        if(!isEditing) {
+            isEditing = true;
+
+            // enable category text field
+            categoryTextField.setEditable(true);
+            categoryTextField.setStyle("-fx-background-color: #fff; -fx-text-fill: #000");
+
+            // enable color picker
+            colorPicker.setDisable(false);
+
+            // hide edit button
+            editButton.setVisible(false);
+            editButton.setManaged(false);
+
+            // display save button
+            saveButton.setVisible(true);
+            saveButton.setManaged(true);
+        } else {
+            isEditing = false;
+
+            // disable category text field
+            categoryTextField.setEditable(false);
+            categoryTextField.setStyle("-fx-background-color: #515050; -fx-text-fill: #BEB9B9");
+
+            // disable color picker
+            colorPicker.setDisable(true);
+
+            // display edit button
+            editButton.setVisible(true);
+            editButton.setManaged(true);
+
+            // hide save button
+            saveButton.setVisible(false);
+            saveButton.setManaged(false);
+        }
     }
 }
