@@ -72,4 +72,21 @@ public class TransactionCategoryService {
     }
 
     //endregion
+
+
+    //region Delete
+
+    public boolean deleteTransactionCategoryById(int transactionCategoryId) {
+        logger.info("Deleting transaction category with id: " + transactionCategoryId);
+
+        Optional<TransactionCategory> transactionCategoryOptional = transactionCategoryRepository.findById(transactionCategoryId);
+
+        if(transactionCategoryOptional.isEmpty()) return false;
+
+        transactionCategoryRepository.delete(transactionCategoryOptional.get());
+
+        return true;
+    }
+
+    //endregion
 }

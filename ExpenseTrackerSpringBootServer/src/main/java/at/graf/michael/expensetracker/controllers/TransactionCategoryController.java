@@ -71,4 +71,20 @@ public class TransactionCategoryController {
     }
 
     //endregion
+
+    //region Delete
+
+    // delete
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TransactionCategory> deleteTransactionCategoryById(@PathVariable int id) {
+        logger.info("Deleting transaction category with id: " + id);
+
+        if(!transactionCategoryService.deleteTransactionCategoryById(id)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    //endregion
 }
