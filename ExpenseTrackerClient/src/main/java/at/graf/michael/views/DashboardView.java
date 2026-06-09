@@ -5,14 +5,8 @@ import at.graf.michael.controllers.DashboardController;
 import at.graf.michael.utils.Utilitie;
 import at.graf.michael.utils.ViewNavigator;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import org.w3c.dom.ls.LSException;
 
 public class DashboardView {
@@ -22,6 +16,10 @@ public class DashboardView {
     private Label totalIncomeLabel, totalIncome;
     private Label totalExpenseLabel, totalExpense;
 
+    private Button addTransactionButton;
+    private VBox recentTransactionBox;
+    private ScrollPane recentTransactionScrollPane;
+
     private MenuItem createCategoryMenuItem, viewCategoriesMenuItem;
 
     public DashboardView(String email) {
@@ -30,6 +28,7 @@ public class DashboardView {
         currentBalanceLabel = new Label("Current Balance:");
         totalIncomeLabel = new Label("Total Income:");
         totalExpenseLabel = new Label("Total Expense:");
+        addTransactionButton = new Button("+");
 
         currentBalance = new Label("€ 0,00");
         totalIncome = new Label("€ 0,00");
@@ -53,9 +52,9 @@ public class DashboardView {
         mainContainer.getStyleClass().addAll("main-background");
 
         HBox balanceSummaryBox = createBalanceSummaryBox();
+        GridPane contentGridPane = createContentGridPane();
 
-        mainContainer.getChildren().addAll(menuBar, balanceSummaryBox);
-
+        mainContainer.getChildren().addAll(menuBar, balanceSummaryBox, contentGridPane);
         return new Scene(mainContainer, Utilitie.APP_WIDTH, Utilitie.APP_HEIGHT);
     }
 
@@ -97,6 +96,40 @@ public class DashboardView {
 
         balanceSummaryBox.getChildren().addAll(currentBalanceBox, region1, totalIncomeBox, region2, totalExpenseBox);
         return balanceSummaryBox;
+    }
+
+    private GridPane createContentGridPane() {
+        GridPane gridPane = new GridPane();
+
+        // recent transactions
+        VBox recentTransactionsVBox = creatRecentTransactionVBox();
+
+        gridPane.add(recentTransactionsVBox,1,0);
+        return gridPane;
+    }
+
+    private VBox creatRecentTransactionVBox() {
+        VBox recentTransactionsVBox = new VBox();
+
+        // label and add button
+        HBox recentTransactionLabelAndBtnBox = new HBox();
+        Label recentTransactionsLabel = new Label("Recent Transactions");
+
+        Region labelAndButtonSpaceRegion = new Region();
+        HBox.setHgrow(labelAndButtonSpaceRegion, Priority.ALWAYS);
+
+        recentTransactionLabelAndBtnBox.getChildren().addAll(recentTransactionsLabel, labelAndButtonSpaceRegion, addTransactionButton);
+
+        // recent transaction box
+        recentTransactionBox = new VBox();
+        recentTransactionScrollPane = new ScrollPane(recentTransactionBox);
+        recentTransactionScrollPane.setFitToWidth(true);
+        recentTransactionScrollPane.setFitToHeight(true);
+
+
+
+        recentTransactionsVBox.getChildren().addAll(recentTransactionLabelAndBtnBox, recentTransactionScrollPane);
+        return recentTransactionsVBox;
     }
 
     //region Getter and Setter
