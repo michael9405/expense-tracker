@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class CategoryComponent extends HBox {
@@ -77,6 +78,22 @@ public class CategoryComponent extends HBox {
         deleteButton = new Button("Delete");
         deleteButton.setMinWidth(50);
         deleteButton.getStyleClass().addAll("text-size-sm", "bg-light-red", "text-white");
+        deleteButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(!SqlUtil.deleteTransactionCategoryById(transactionCategory.getId())) {
+                    return;
+                }
+
+                // remove this component form dialog
+                setVisible(false);
+                setManaged(false);
+
+                if(getParent() instanceof VBox) {
+                    ((VBox) getParent()).getChildren().remove(CategoryComponent.this);
+                }
+            }
+        });
 
         getChildren().addAll(categoryTextField, colorPicker, editButton, saveButton, deleteButton);
     }

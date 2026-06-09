@@ -32,7 +32,9 @@ public class ViewOrEditTransactionCategoryDialog extends CustomDialog {
     private ScrollPane createMainContainerContent() {
         VBox dialogVBox = new VBox(20);
 
+
         ScrollPane scrollPane = new ScrollPane(dialogVBox);
+        scrollPane.setMinHeight(getHeight() - 40);
         scrollPane.setFitToWidth(true);
 
         List<TransactionCategory> transactionCategories = SqlUtil.getAllTransactionCategoriesByUser(user);

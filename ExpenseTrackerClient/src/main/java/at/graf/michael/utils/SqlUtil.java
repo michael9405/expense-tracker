@@ -198,4 +198,33 @@ public class SqlUtil {
     }
 
     //endregion
+
+    //region DELETE
+    public static boolean deleteTransactionCategoryById(int categoryId) {
+        HttpURLConnection conn = null;
+        try {
+            conn = ApiUtil.fetchApi(
+                    "/api/v1/transaction-category/" + categoryId,
+                    ApiUtil.RequestMethod.DELETE, null
+
+            );
+
+            if(conn.getResponseCode() != 200) {
+                System.out.println("Error(deleteTransactionCategory): " + conn.getResponseCode());
+                return false;
+            }
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        return false;
+    }
+
+    //endregion
 }
