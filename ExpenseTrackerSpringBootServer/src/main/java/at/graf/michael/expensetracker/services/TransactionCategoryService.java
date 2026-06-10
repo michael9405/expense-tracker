@@ -21,7 +21,7 @@ public class TransactionCategoryService {
     @Autowired
     private TransactionCategoryRepository transactionCategoryRepository;
 
-    //region Get
+    //region GET
     public Optional<TransactionCategory> getTransactionCategoryById(int id) {
         logger.info("Getting transaction category by id: " + id);
         return transactionCategoryRepository.findById(id);
@@ -35,7 +35,7 @@ public class TransactionCategoryService {
     //endregion
 
 
-    //region Post
+    //region POST
     public TransactionCategory createTransactionCategory(int userId, String categoryName, String categoryColor) {
         logger.info("Create transaction category with user: " + userId);
 
@@ -54,7 +54,7 @@ public class TransactionCategoryService {
 
     //endregion
 
-    //region Put (Update)
+    //region PUT (Update)
 
     public TransactionCategory updateTransactionCategoryById(int transactionCategoryId, String newCategoryName, String newCategoryColor) {
         logger.info("Updating TransactionCategory with Id: " + transactionCategoryId);
@@ -74,7 +74,7 @@ public class TransactionCategoryService {
     //endregion
 
 
-    //region Delete
+    //region DELETE
 
     public boolean deleteTransactionCategoryById(int transactionCategoryId) {
         logger.info("Deleting transaction category with id: " + transactionCategoryId);
