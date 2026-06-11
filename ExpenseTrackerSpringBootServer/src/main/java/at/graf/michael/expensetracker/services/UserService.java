@@ -17,7 +17,7 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    // Get
+    //region GET
     public Optional<User> getUserById(int userId) {
         logger.info("Getting the user by id: " + userId);
         return userRepository.findById(userId);
@@ -28,7 +28,9 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    // Post
+    //endregion
+
+    //region POST
     public User createUser(String name, String username, String password) {
         User user = new User();
         user.setName(name);
@@ -37,4 +39,6 @@ public class UserService {
         user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);
     }
+
+    //endregion
 }
